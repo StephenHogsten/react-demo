@@ -7,3 +7,8 @@
     max-height: 999px;
   }
 }
+
+// don't feel like figuring out why their z-index fn is broken rn
+.bx--loading-overlay {
+  z-index: 99999;
+}
