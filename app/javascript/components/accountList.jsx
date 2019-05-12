@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 import AccountCard from './accountCard'
 import { DataTable } from 'carbon-components-react';
@@ -25,6 +26,26 @@ class AccountList extends Component {
         }
       ]
     }
+  }
+
+  componentDidMount () {
+    axios({
+      method: 'get',
+      url: "/accounts",
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+      .then((results) => {
+        console.log(results)
+        if (results.data)
+        this.setState((state, props) => {
+          return {
+            accounts: results.data
+          }
+        })
+      })
   }
 
   accountCards() {
