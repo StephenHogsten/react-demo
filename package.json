@@ -4,7 +4,11 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "@rails/webpacker": "^4.0.2",
+    "axios": "^0.18.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "carbon-components": "^10.2.0",
+    "carbon-components-react": "^7.2.0",
+    "carbon-icons": "^7.0.7",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"

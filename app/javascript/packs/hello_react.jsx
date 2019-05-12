@@ -4,23 +4,21 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
-
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
+import Hello from '../components/hello'
+import AccountList from '../components/accountList'
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Hello name="React" />,
-    document.body.appendChild(document.createElement('div')),
-  )
+  const root = document.getElementById('root')
+  if (root) {
+    ReactDOM.render(
+      (
+        <div>
+          <AccountList />
+          <Hello name="man" />
+        </div>
+      ),
+      root,
+    )
+  }
 })
