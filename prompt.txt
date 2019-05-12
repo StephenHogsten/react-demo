@@ -1,0 +1,21 @@
+Hi Stephen,
+
+Here’s the coding challenge outline based on what we talked about earlier. Please have it ready to send to me by 5pm CST on Tuesday (5/14), at which point I’ll take some time to review and I’ll reach out about next steps
+
+Overview
+The CRUD pattern is fundamental to the Internet and to SaaS companies. We would like to see your ability to put together a small Rails project to demonstrate abilities in MVC architecture and single-page web application architecture. The requirements for the application are as follows:
+
+    Ruby on Rails API
+    React frontend (either bundled with the Rails app using Webpack or as a separate app).
+    Ability to create / read / update / delete bank accounts in a single-page application backed by a JSON API, with both front-end and back-end validations, including validations on the bank routing number (that it belongs to a real bank). We will need to store: account number, routing number, bank address information, bank nickname.
+
+
+Deliverables
+We expect the final product to be web-ready, a Git repository on Github which we are able to clone. We should be able to checkout the repository, and be provided instructions for how to view the pages of the application in our browsers.
+
+Evaluation criteria
+We will first evaluate for functionality. Does it work? Is it pulling in data from an API, and sending requests? We will then evaluate for presentation. Does it look professional? Is the interface user-friendly and does it follow best practices for UX? We will then evaluate for technical proficiency. What tools were used? Can it be broken? Is it implemented in a clean, readable manner? Does it demonstrate knowledge of single-page application architecture and tools? We want to see what you’re able to do given a limited timeline and limited guidance on the task at hand.
+
+If you have any questions don’t hesitate to reach out. I’ll be available by email throughout the process.
+
+Good luck!
