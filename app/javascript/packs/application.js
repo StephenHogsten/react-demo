@@ -16,3 +16,5 @@
 // const imagePath = (name) => images(name, true)
 
 console.log('Hello World from Webpacker')
+
+document.querySelector('body').append('<div style="background:blue;height:200px"></div>')
