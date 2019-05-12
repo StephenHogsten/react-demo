@@ -12,10 +12,12 @@ import AddAccount from '../components/addAccount'
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root')
   if (root) {
+    const tokenTag = document.querySelector('meta[name=csrf-token]')
+    const token = tokenTag === null ? '' : tokenTag.content
     ReactDOM.render(
       (
         <div>
-          <AccountList />
+          <AccountList token={token} />
           <Hello name="man" />
         </div>
       ),

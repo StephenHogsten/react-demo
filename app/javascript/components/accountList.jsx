@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import axios from 'axios';
 
 import AccountCard from './accountCard';
@@ -46,6 +47,17 @@ class AccountList extends Component {
     })
   }
 
+  onSaveAccount(newAccount) {
+    this.setState((state) => {
+      console.log('state', state.accounts.slice().unshift(newAccount))
+      let newAccounts = state.accounts.slice()
+      newAccounts.push(newAccount)
+      return {
+        accounts: newAccounts
+      }
+    })
+  }
+
   accountCard() {
     AccountCard
   }
@@ -55,15 +67,22 @@ class AccountList extends Component {
       return <Loading />
     }
     return (
-      <div className='accounts-container'>
-        {this.accountCards()}
-        <AddAccount />
+      <div className='accounts'>
+        <AddAccount onSave={(newAccount) => this.onSaveAccount(newAccount)} token={this.props.token} />
+        <div className='accounts-grid'>
+          {this.accountCards()}
+        </div>
       </div>
     )
   }
 }
 
+AccountList.propTypes = {
+  token: PropTypes.string
+}
+
 export default AccountList
+
 
 // AccountList.PropTypes = {
 //   accounts: PropTypes.arrayOf(

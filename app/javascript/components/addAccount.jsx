@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import axios from 'axios'
 
 import { 
@@ -12,6 +13,9 @@ class AddAccount extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading: false,
+      collapsed: false,
+      errorMessage: null,
       id: null,
       accountNumber: null,
       routingNumber: null,
@@ -33,16 +37,68 @@ class AddAccount extends Component {
   }
 
   onSubmit(ev) {
-    ev.preventSubmit()
+    ev.preventDefault()
     console.log('should submit')
+    this.setState(() => {
+      return {
+        loading: true,
+        errorMessage: ''
+      }
+    })
+    axios({
+      method: 'post',
+      url: '/accounts',
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': this.props.token
+      },
+      data: {
+        account: {
+          "account_number": this.state.accountNumber,
+          "routing_number": this.state.routingNumber,
+          "name": this.state.name,
+          "street_address_1": this.state.streetAddress1,
+          "street_address_2": this.state.streetAddress2,
+          "city": this.state.city,
+          "state": this.state.state,
+          "zip": this.state.zip
+        }
+      }
+    })
+      .then((resp) => {
+        console.log('success')
+        console.log(resp)
+        console.log(this)
+        console.log(this.setState)
+        this.setState(() => {
+          return {collapsed: true, loading: false}
+        })
+        console.log('b')
+        this.props.onSave(resp.data)
+        console.log('c')
+      })
+      .catch((err) => {
+        console.log('err', err)
+        this.setState(() => {
+          return {
+            errorMessage: 'There was a problem saving your new account', 
+            loading: false
+          }
+        })
+      })
   }
 
   render () {
+    const loading = this.state.loading ? <Loading /> : ''
+
     return (
       <div className='add-account'>
+        {loading}
         <Button>+ Add Account</Button>
         <div className='add-account__container'>
           <form className='add-account__form'>
+            <h4 className='add-account__title'>New Account</h4>
             <FormGroup legendText=''>
               <TextInput
                 type="text"
@@ -88,7 +144,6 @@ class AddAccount extends Component {
               />
               <TextInput
                 type="text"
-                required
                 name="account[street_address_2]"
                 id="street_address_2"
                 labelText="Street Address (line 2)"
@@ -123,12 +178,17 @@ class AddAccount extends Component {
                 onChange={this.onChangeFor('zip')}
               />
             </FormGroup>
-            <Button type='submit' onClick={this.submit}>Submit</Button>
+            <Button type='submit' onClick={(ev) => this.onSubmit(ev)}>Submit</Button>
           </form>
         </div>
       </div>
     )
   }
+}
+
+AddAccount.propTypes = {
+  onSave: PropTypes.func.isRequired,
+  token: PropTypes.string
 }
 
 export default AddAccount
