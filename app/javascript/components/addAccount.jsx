@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import classNames from 'classnames'
 
 import { 
   Button,
@@ -14,7 +15,7 @@ class AddAccount extends Component {
     super(props)
     this.state = {
       loading: false,
-      collapsed: false,
+      collapsed: true,
       errorMessage: null,
       id: null,
       accountNumber: null,
@@ -26,6 +27,20 @@ class AddAccount extends Component {
       state: null,
       zip:null
     }
+  }
+
+  buttonCaption() {
+    if (this.state.collapsed) {
+      return '+ Add Account'
+    } else {
+      return '- Collapse'
+    }
+  }
+
+  toggleCollapse() {
+    this.setState((state) => {
+      return {collapsed: !state.collapsed}
+    })
   }
 
   onChangeFor(field) {
@@ -95,9 +110,12 @@ class AddAccount extends Component {
     return (
       <div className='add-account'>
         {loading}
-        <Button>+ Add Account</Button>
+        <Button onClick={() => this.toggleCollapse()}>{this.buttonCaption()}</Button>
         <div className='add-account__container'>
-          <form className='add-account__form'>
+          <form className={classNames(
+            'add-account__form',
+            {'add-account__form--is-expanded': !this.state.collapsed}
+          )}>
             <h4 className='add-account__title'>New Account</h4>
             <FormGroup legendText=''>
               <TextInput

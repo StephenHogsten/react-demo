@@ -1,3 +1,64 @@
-.accounts-container {
+.accounts {
   margin: $layout-05;
+
+  &__title {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 400;
+  }
+}
+
+.accounts-grid {
+  display: grid;
+  margin-left: -$layout-01;
+  margin-right: -$layout-01;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.account-card {
+  position: relative;
+  margin: $layout-01;
+  padding: $layout-01;
+  align-self: flex-start;
+  box-shadow: 3px 3px 6px 1px rgba(0,0,0,0.2);
+  border-radius: 6px;
+
+  &__title {
+    margin-bottom: $spacing-03;
+    font-weight: 600;
+  }
+
+  &__data-label {
+    margin: $spacing-03 0 $spacing-01 0;
+    font-size: 0.75em;
+    font-style: italic;
+  }
+
+  &__collapsible {
+    @include collapsible();
+  }
+
+  &__caret {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: $layout-03;
+    width: $layout-03;
+    border: none;
+    background: none;
+
+    &::after {
+      content: '▼';
+      position: absolute;
+      left: 25%;
+      top: 25%;
+      width: 50%;
+      height: 50%;
+      transition: 350ms ease-in-out;
+    }
+
+    &--is-up::after {
+      transform: rotate(180deg);
+    }
+  }
 }

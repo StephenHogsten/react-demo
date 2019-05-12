@@ -1,0 +1,9 @@
+@mixin collapsible() {
+  max-height: 0;
+  overflow: hidden;
+  transition: 350ms ease-in-out;
+
+  &--is-expanded {
+    max-height: 999px;
+  }
+}

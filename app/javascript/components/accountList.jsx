@@ -68,6 +68,7 @@ class AccountList extends Component {
     }
     return (
       <div className='accounts'>
+        <h2 className='accounts__title'>All Accounts</h2>
         <AddAccount onSave={(newAccount) => this.onSaveAccount(newAccount)} token={this.props.token} />
         <div className='accounts-grid'>
           {this.accountCards()}

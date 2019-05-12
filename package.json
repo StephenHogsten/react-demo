@@ -9,6 +9,7 @@
     "carbon-components": "^10.2.0",
     "carbon-components-react": "^7.2.0",
     "carbon-icons": "^7.0.7",
+    "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
