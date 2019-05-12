@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom'
 
 import Hello from '../components/hello'
 import AccountList from '../components/accountList'
+import AddAccount from '../components/addAccount'
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root')

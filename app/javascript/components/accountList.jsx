@@ -1,30 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
-import AccountCard from './accountCard'
-import { DataTable } from 'carbon-components-react';
-// De-structure `DataTable` directly to get local references
-
-const { Table, TableHead, TableHeader, TableBody, TableCell } = DataTable;
+import AccountCard from './accountCard';
+import AddAccount from './addAccount';
+import { Loading } from 'carbon-components-react';
 
 // the list of accounts lives in this component
 class AccountList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      accounts: [
-        {
-          id: 1,
-          accountNumber: 'acct1111',
-          routingNumber: 'routing2222',
-          name: 'my bank account',
-          streetAddress1: '21 TwentyFirst Street',
-          streetAddress2: 'apt 2',
-          city: 'nowheresville',
-          state: 'MD',
-          zip: '21212'
-        }
-      ]
+      loading: true,
+      accounts: []
     }
   }
 
@@ -38,17 +25,20 @@ class AccountList extends Component {
       }
     })
       .then((results) => {
-        console.log(results)
-        if (results.data)
+        let accounts = results.data === null ? [] : results.data
         this.setState((state, props) => {
           return {
-            accounts: results.data
+            loading: false,
+            accounts: accounts
           }
         })
       })
   }
 
   accountCards() {
+    if (this.state.accounts.length === 0) {
+      return <p>No Accounts Found</p>
+    }
     return this.state.accounts.map( (account) => {
       return (
         <AccountCard account={account} key={account.id} />
@@ -61,9 +51,13 @@ class AccountList extends Component {
   }
   
   render () {    
+    if (this.state.loading) {
+      return <Loading />
+    }
     return (
       <div className='accounts-container'>
         {this.accountCards()}
+        <AddAccount />
       </div>
     )
   }
