@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames'
 
 import { Shape } from '../data_structures/account'
+import Button from 'carbon-components-react/lib/components/Button';
 
 class AccountCard extends Component {
   constructor(props) {

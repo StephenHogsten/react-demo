@@ -4,10 +4,10 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Hello from '../components/hello'
 import AccountList from '../components/accountList'
-import AddAccount from '../components/addAccount'
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root')
@@ -16,10 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = tokenTag === null ? '' : tokenTag.content
     ReactDOM.render(
       (
-        <div>
-          <AccountList token={token} />
-          <Hello name="man" />
-        </div>
+        <BrowserRouter>
+          <div>
+            <Switch>
+              <Route
+                path='/'
+                exact
+                render={() => <AccountList token={token} />}
+              />
+              <Route render={() => <p>Invalid route</p>} />
+            </Switch>
+            <Hello name="man" />
+          </div>
+        </BrowserRouter>
       ),
       root,
     )

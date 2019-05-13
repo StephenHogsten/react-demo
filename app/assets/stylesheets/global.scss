@@ -1,11 +1,6 @@
-@mixin collapsible() {
-  max-height: 0;
-  overflow: hidden;
-  transition: 350ms ease-in-out;
-
-  &--is-expanded {
-    max-height: 999px;
-  }
+button {
+  border: none;
+  background: none;
 }
 
 // don't feel like figuring out why their z-index fn is broken rn

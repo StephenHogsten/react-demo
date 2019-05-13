@@ -62,7 +62,7 @@ class AddAccount extends Component {
     })
     axios({
       method: 'post',
-      url: '/accounts',
+      url: '/api/accounts',
       responseType: 'json',
       headers: {
         'Accept': 'application/json',
@@ -160,6 +160,8 @@ class AddAccount extends Component {
                 placeholder="1 Main Street"
                 onChange={this.onChangeFor('streetAddress1')}
               />
+            </FormGroup>
+            <FormGroup legendText=''>
               <TextInput
                 type="text"
                 name="account[street_address_2]"
@@ -168,6 +170,8 @@ class AddAccount extends Component {
                 placeholder="apt 3a"
                 onChange={this.onChangeFor('streetAddress2')}
               />
+            </FormGroup>
+            <FormGroup legendText=''>
               <TextInput
                 type="text"
                 required
@@ -177,6 +181,8 @@ class AddAccount extends Component {
                 placeholder="Washington"
                 onChange={this.onChangeFor('city')}
               />
+            </FormGroup>
+            <FormGroup legendText=''>
               <TextInput
                 type="text"
                 required
@@ -186,6 +192,8 @@ class AddAccount extends Component {
                 placeholder="DC"
                 onChange={this.onChangeFor('state')}
               />
+            </FormGroup>
+            <FormGroup legendText=''>
               <TextInput
                 type="text"
                 required

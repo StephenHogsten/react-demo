@@ -19,7 +19,7 @@ class AccountList extends Component {
   componentDidMount () {
     axios({
       method: 'get',
-      url: "/accounts",
+      url: "/api/accounts",
       responseType: 'json',
       headers: {
         'Accept': 'application/json'
