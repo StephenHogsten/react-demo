@@ -60,13 +60,22 @@ class App extends Component {
       })
   }
 
-   onSaveAccount(newAccount) {
+   onCreateAccount(newAccount) {
     this.setState((state) => {
-      console.log('state', state.accounts.slice().unshift(newAccount))
       let newAccounts = state.accounts.slice()
       newAccounts.push(newAccount)
       return {
         accounts: newAccounts
+      }
+    })
+  }
+
+  onUpdateAccount(updatedAccount) {
+    this.setState((state) => {
+      let accounts = state.accounts.filter((acct) => acct.id !== updatedAccount.id)
+      accounts.push(updatedAccount)
+      return {
+        accounts: accounts
       }
     })
   }
@@ -102,7 +111,7 @@ class App extends Component {
                 return (
                   <NewAccount 
                     token={this.state.token}
-                    onSave={(acct) => this.onSaveAccount(acct)}
+                    onSave={(acct) => this.onCreateAccount(acct)}
                   />
                 )
               }}
@@ -114,7 +123,7 @@ class App extends Component {
                 return (
                   <EditAccount
                     token={this.state.token}
-                    onSave={(acct) => this.onSaveAccount(acct)}
+                    onSave={(acct) => this.onUpdateAccount(acct)}
                     accounts={this.state.accounts}
                     activeAccount={this.activeAccount(props.match.params.accountId)}
                   />

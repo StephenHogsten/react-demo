@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import axios from 'axios'
 import classNames from 'classnames'
 
@@ -20,7 +20,8 @@ class accountForm extends Component {
     this.state = {
       loading: account === null,
       errorMessage: null,
-      account: account
+      account: account,
+      redirect: false
     }
   }
 
@@ -104,7 +105,10 @@ class accountForm extends Component {
       .then((resp) => {
         this.props.onSave(resp.data)
         this.setState(() => {
-          return {loading: false}
+          return {
+            loading: false,
+            redirect: true
+          }
         })
       })
       .catch((err) => {
@@ -119,6 +123,10 @@ class accountForm extends Component {
   }
 
   render () {
+    if (this.state.redirect) {
+      return <Redirect to='/accounts'/>
+    }
+
     const loading = this.state.loading ? <Loading /> : ''
     if (this.state.account === null) {
       return loading
