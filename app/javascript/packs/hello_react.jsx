@@ -4,9 +4,13 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+  Switch
+} from 'react-router-dom'
 
-import Hello from '../components/hello'
 import AccountList from '../components/accountList'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,13 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <Switch>
               <Route
-                path='/'
+                path='/accounts'
                 exact
                 render={() => <AccountList token={token} />}
               />
+              <Redirect from="/" to="/accounts" exact="true" />
               <Route render={() => <p>Invalid route</p>} />
             </Switch>
-            <Hello name="man" />
           </div>
         </BrowserRouter>
       ),

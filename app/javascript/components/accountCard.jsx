@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 
 import { Shape } from '../data_structures/account'
-import Button from 'carbon-components-react/lib/components/Button';
 
 class AccountCard extends Component {
   constructor(props) {
@@ -52,6 +52,7 @@ class AccountCard extends Component {
           <span className='account-card__data-value'>{this.props.account.state}</span>
           <h6 className='account-card__data-label'>Zip</h6>
           <span className='account-card__data-value'>{this.props.account.zip}</span>
+          <Link to={`/accounts/${this.props.account.id}`} className='bx--link account-card__link'>Edit</Link>
         </div>
       </div>
     )

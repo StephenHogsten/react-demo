@@ -38,6 +38,11 @@
     @include collapsible();
   }
 
+  &__link {
+    display: block;
+    margin: $spacing-03 0;
+  }
+
   &__caret {
     position: absolute;
     right: 0;
