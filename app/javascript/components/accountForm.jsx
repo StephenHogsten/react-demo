@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import classNames from 'classnames'
 
@@ -10,44 +11,51 @@ import {
   TextInput
 } from 'carbon-components-react';
 
-class AddAccount extends Component {
+import {Shape} from '../data_structures/account'
+
+class accountForm extends Component {
   constructor(props) {
     super(props)
+    const account = Object.assign({}, this.props.account)
     this.state = {
-      loading: false,
-      collapsed: true,
+      loading: account === null,
       errorMessage: null,
-      id: null,
-      accountNumber: null,
-      routingNumber: null,
-      name: null,
-      streetAddress1: null,
-      streetAddress2: null,
-      city: null,
-      state: null,
-      zip:null
+      account: account
     }
   }
 
-  buttonCaption() {
-    if (this.state.collapsed) {
-      return '+ Add Account'
-    } else {
-      return '- Collapse'
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   console.log('prevProps', prevProps)
+  //   console.log('currprops', this.props)
+  //   if (prevProps.hasOwnProperty('account')) {
+  //     if (typeof prevProps.account !== 'undefined') {
+  //       return
+  //     }
+  //   }
+  //   this.copyPropsAccountToState()
+  // }
 
-  toggleCollapse() {
-    this.setState((state) => {
-      return {collapsed: !state.collapsed}
+  copyPropsAccountToState() {
+    console.log('this.props.account', this.props.account)
+    const account = Object.assign({}, this.props.account)
+    this.setState(() => {
+      return { 
+        loading: false,
+        account: account
+      }
     })
   }
 
   onChangeFor(field) {
     return (ev) => {
-      let stateUpdater = {}
-      stateUpdater[field] = ev.target.value
-      this.setState(() => stateUpdater)
+      let value = ev.target.value
+      this.setState((state) => {
+        let account = Object.assign({}, state.account)
+        account[field] = value
+        return {
+          account: account
+        }
+      })
     }
   }
 
@@ -82,16 +90,10 @@ class AddAccount extends Component {
       }
     })
       .then((resp) => {
-        console.log('success')
-        console.log(resp)
-        console.log(this)
-        console.log(this.setState)
-        this.setState(() => {
-          return {collapsed: true, loading: false}
-        })
-        console.log('b')
         this.props.onSave(resp.data)
-        console.log('c')
+        this.setState(() => {
+          return {loading: false}
+        })
       })
       .catch((err) => {
         console.log('err', err)
@@ -106,20 +108,23 @@ class AddAccount extends Component {
 
   render () {
     const loading = this.state.loading ? <Loading /> : ''
+    if (this.state.account === null) {
+      return loading
+    }
 
     return (
       <div className='add-account'>
         {loading}
-        <Button onClick={() => this.toggleCollapse()}>{this.buttonCaption()}</Button>
+        <div>
+          <Link to='/accounts'>&lt; All Accounts</Link>
+        </div>
         <div className='add-account__container'>
-          <form className={classNames(
-            'add-account__form',
-            {'add-account__form--is-expanded': !this.state.collapsed}
-          )}>
+          <form className='add-account__form'>
             <h4 className='add-account__title'>New Account</h4>
             <FormGroup legendText=''>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.name}
                 required
                 name="account[name]"
                 id="name"
@@ -131,6 +136,7 @@ class AddAccount extends Component {
             <FormGroup legendText=''>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.accountNumber}
                 required
                 name="account[account_number]"
                 id="account_number"
@@ -142,6 +148,7 @@ class AddAccount extends Component {
             <FormGroup legendText=''>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.routingNumber}
                 required
                 name="account[routing_number]"
                 id="routing_number"
@@ -153,6 +160,7 @@ class AddAccount extends Component {
             <FormGroup legendText='Account Address'>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.streetAddress1}
                 required
                 name="account[street_address_1]"
                 id="street_address_1"
@@ -163,6 +171,7 @@ class AddAccount extends Component {
             </FormGroup>
             <FormGroup legendText=''>
               <TextInput
+                defaultValue={this.state.account.streetAddress2}
                 type="text"
                 name="account[street_address_2]"
                 id="street_address_2"
@@ -174,6 +183,7 @@ class AddAccount extends Component {
             <FormGroup legendText=''>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.city}
                 required
                 name="account[city]"
                 id="city"
@@ -185,6 +195,7 @@ class AddAccount extends Component {
             <FormGroup legendText=''>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.state}
                 required
                 name="account[state]"
                 id="state"
@@ -196,6 +207,7 @@ class AddAccount extends Component {
             <FormGroup legendText=''>
               <TextInput
                 type="text"
+                defaultValue={this.state.account.zip}
                 required
                 name="account[zip]"
                 id="zip"
@@ -212,9 +224,10 @@ class AddAccount extends Component {
   }
 }
 
-AddAccount.propTypes = {
+accountForm.propTypes = {
   onSave: PropTypes.func.isRequired,
+  account: Shape,
   token: PropTypes.string
 }
 
-export default AddAccount
+export default accountForm

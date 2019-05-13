@@ -1,5 +1,19 @@
 import PropTypes from 'prop-types'
 
+function AccountFactory() {
+  return {
+    id: null,
+    accountNumber: null,
+    routingNumber: null,
+    name: null,
+    streetAddress1: null,
+    streetAddress2: null,
+    city: null,
+    state: null,
+    zip: null,
+  }
+}
+
 const Shape = PropTypes.shape({
   id: PropTypes.number.required,
   accountNumber: PropTypes.string.isRequired,
@@ -12,4 +26,4 @@ const Shape = PropTypes.shape({
   zip: PropTypes.string.isRequired
 })
 
-export { Shape }
+export { Shape, AccountFactory }
