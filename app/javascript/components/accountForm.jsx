@@ -59,6 +59,38 @@ class accountForm extends Component {
     }
   }
 
+  axiosOptions() {
+    let method, url;
+    if (this.state.account.id === null) {
+      method = 'post'
+      url = '/api/accounts'
+    } else {
+      method = 'patch'
+      url = `/api/accounts/${this.state.account.id}`
+    }
+    return {
+      method: method,
+      url: url,
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': this.props.token
+      },
+      data: {
+        account: {
+          "account_number": this.state.account.accountNumber,
+          "routing_number": this.state.account.routingNumber,
+          "name": this.state.account.name,
+          "street_address_1": this.state.account.streetAddress1,
+          "street_address_2": this.state.account.streetAddress2,
+          "city": this.state.account.city,
+          "state": this.state.account.state,
+          "zip": this.state.account.zip
+        }
+      }
+    }
+  }
+
   onSubmit(ev) {
     ev.preventDefault()
     console.log('should submit')
@@ -68,27 +100,7 @@ class accountForm extends Component {
         errorMessage: ''
       }
     })
-    axios({
-      method: 'post',
-      url: '/api/accounts',
-      responseType: 'json',
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': this.props.token
-      },
-      data: {
-        account: {
-          "account_number": this.state.accountNumber,
-          "routing_number": this.state.routingNumber,
-          "name": this.state.name,
-          "street_address_1": this.state.streetAddress1,
-          "street_address_2": this.state.streetAddress2,
-          "city": this.state.city,
-          "state": this.state.state,
-          "zip": this.state.zip
-        }
-      }
-    })
+    axios(this.axiosOptions())
       .then((resp) => {
         this.props.onSave(resp.data)
         this.setState(() => {
