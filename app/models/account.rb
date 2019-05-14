@@ -77,6 +77,8 @@ class Account < ApplicationRecord
     with: /\A\d{5}\z/
   }
 
+  validate :routing_number_must_have_valid_checksum
+
   # force state to be uppercase
   def state
     state = super
@@ -85,5 +87,14 @@ class Account < ApplicationRecord
 
   def state=(value)
     super(value.upcase)
+  end
+
+  def routing_number_must_have_valid_checksum
+    ach = routing_number
+    multipliers = [3, 7, 1, 3, 7, 1, 3, 7, 1]
+    products = multipliers.map.with_index do |multiplier, idx|
+      multiplier * ach[idx].to_i
+    end
+    products.sum % 10 === 0 
   end
 end
