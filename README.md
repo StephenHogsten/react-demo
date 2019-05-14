@@ -24,7 +24,8 @@
 * I kept the validation pretty simple
   * **bank account number** must be only comprised of alphanumeric characters
     * at least according to several SO threads I couldn't find any real standards for bank account number (e.g. [this one](https://stackoverflow.com/questions/1540285/united-states-banking-institution-account-number-regular-expression)). 
-  * **routing number** must be 9 digits and must have a valid "checksum" digit according to [this logic](http://www.brainjar.com/js/validation/)
+  * **routing number** must be 9 digits, must have valid first two digits, and must have a valid "checksum" digit according to [these digits](https://en.wikipedia.org/wiki/ABA_routing_transit_number) and [this logic](http://www.brainjar.com/js/validation/)
+    * I could not find a convenient and reliable source for actual ABA institution numbers but if this is essential I could spend more time searching for one
   * **zip** must be 5 digits (no 9 digit zips)
   * **state** must be an abbreviation corresponding to a US state or commonwealth territory
     * quickly pulled a list from [here](https://www.50states.com/abbreviations.htm)
