@@ -230,7 +230,7 @@ class AccountForm extends Component {
                 name="account[routing_number]"
                 id="routing_number"
                 labelText="Routing Number"
-                placeholder="xxxx-xxxx-xxxx-xxxx"
+                placeholder="xxxxxxxxx"
                 onChange={this.onChangeFor('routingNumber')}
                 invalid={this.state.fieldErrors.hasOwnProperty('routingNumber')}
                 invalidText={this.state.fieldErrors.routingNumber}
