@@ -9,7 +9,7 @@ import { Shape as AccountShape } from '../data_structures/account'
 class AccountList extends Component {
   accountCards() {
     if (this.props.accounts.length === 0) {
-      return <p className='avl-error-message accounts-grid__error'>No Accounts Found</p>
+      return <p className='avl-error-message avl-accounts-grid__error'>No Accounts Found</p>
     }
     return this.props.accounts.map( (account) => {
       return (
@@ -20,10 +20,10 @@ class AccountList extends Component {
 
   render () {    
     return (
-      <div className='accounts'>
-        <h2 className='accounts__title'>All Accounts</h2>
+      <div className='avl-accounts'>
+        <h2 className='avl-accounts__title'>All Accounts</h2>
         <Link className='bx--link' to='/accounts/new'>+ Add Account</Link>
-        <div className='accounts-grid'>
+        <div className='avl-accounts-grid'>
           {this.accountCards()}
         </div>
       </div>

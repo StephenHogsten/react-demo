@@ -98,7 +98,7 @@ class App extends Component {
     const loading = this.state.loading ? <Loading/> : ''
     return (
       <BrowserRouter>
-        <div className='body-container'>
+        <div className='avl-body-container'>
           {loading}
           <Switch>
             <Route

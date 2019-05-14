@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Shape as AccountShape } from '../data_structures/account'
 import AccountForm from './accountForm'
 
-class editAccount extends Component {
+class EditAccount extends Component {
   constructor(props) {
     super(props)
   }
@@ -22,11 +22,11 @@ class editAccount extends Component {
   }
 }
 
-editAccount.propTypes = {
+EditAccount.propTypes = {
   token: PropTypes.string,
   onSave: PropTypes.func.isRequired,
   activeAccount: AccountShape,
   onDelete: PropTypes.func.isRequired
 }
 
-export default editAccount
+export default EditAccount

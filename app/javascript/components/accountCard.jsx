@@ -14,15 +14,15 @@ class AccountCard extends Component {
 
   collapsibleClasses() {
     return classNames(
-      'account-card__collapsible',
-      {'account-card__collapsible--is-expanded': !this.state.addressCollapsed}
+      'avl-account-card__collapsible',
+      {'avl-account-card__collapsible--is-expanded': !this.state.addressCollapsed}
     )
   }
 
   caretClasses() {
     return classNames(
-      'account-card__caret',
-      {'account-card__caret--is-up': !this.state.addressCollapsed}
+      'avl-account-card__caret',
+      {'avl-account-card__caret--is-up': !this.state.addressCollapsed}
     )
   }
 
@@ -34,25 +34,25 @@ class AccountCard extends Component {
 
   render () {
     return (
-      <div className='account-card'>
+      <div className='avl-account-card'>
         <button className={this.caretClasses()} onClick={() => this.toggleCollapse()}></button>
-        <h4 className='account-card__title'>{this.props.account.name}</h4>
-        <h6 className='account-card__data-label'>Account Number</h6>
-        <span className='account-card__data-value'>{this.props.account.accountNumber}</span>
-        <h6 className='account-card__data-label'>Routing Number</h6>
-        <span className='account-card__data-value'>{this.props.account.routingNumber}</span>
+        <h4 className='avl-account-card__title'>{this.props.account.name}</h4>
+        <h6 className='avl-account-card__data-label'>Account Number</h6>
+        <span className='avl-account-card__data-value'>{this.props.account.accountNumber}</span>
+        <h6 className='avl-account-card__data-label'>Routing Number</h6>
+        <span className='avl-account-card__data-value'>{this.props.account.routingNumber}</span>
         <div className={this.collapsibleClasses()}>
-          <h6 className='account-card__data-label'>Street Address 1</h6>
-          <span className='account-card__data-value'>{this.props.account.streetAddress1}</span>
-          <h6 className='account-card__data-label'>Street Address 2</h6>
-          <span className='account-card__data-value'>{this.props.account.streetAddress2}</span>
-          <h6 className='account-card__data-label'>City</h6>
-          <span className='account-card__data-value'>{this.props.account.city}</span>
-          <h6 className='account-card__data-label'>State</h6>
-          <span className='account-card__data-value'>{this.props.account.state}</span>
-          <h6 className='account-card__data-label'>Zip</h6>
-          <span className='account-card__data-value'>{this.props.account.zip}</span>
-          <Link to={`/accounts/${this.props.account.id}`} className='bx--link account-card__link'>Edit</Link>
+          <h6 className='avl-account-card__data-label'>Street Address 1</h6>
+          <span className='avl-account-card__data-value'>{this.props.account.streetAddress1}</span>
+          <h6 className='avl-account-card__data-label'>Street Address 2</h6>
+          <span className='avl-account-card__data-value'>{this.props.account.streetAddress2}</span>
+          <h6 className='avl-account-card__data-label'>City</h6>
+          <span className='avl-account-card__data-value'>{this.props.account.city}</span>
+          <h6 className='avl-account-card__data-label'>State</h6>
+          <span className='avl-account-card__data-value'>{this.props.account.state}</span>
+          <h6 className='avl-account-card__data-label'>Zip</h6>
+          <span className='avl-account-card__data-value'>{this.props.account.zip}</span>
+          <Link to={`/accounts/${this.props.account.id}`} className='bx--link avl-account-card__link'>Edit</Link>
         </div>
       </div>
     )

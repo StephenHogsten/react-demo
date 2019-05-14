@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { AccountFactory } from '../data_structures/account'
 import AccountForm from './accountForm'
 
-class newAccount extends Component {
+class NewAccount extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,9 +22,9 @@ class newAccount extends Component {
   }
 }
 
-newAccount.propTypes = {
+NewAccount.propTypes = {
   token: PropTypes.string,
   onSave: PropTypes.func.isRequired
 }
 
-export default newAccount
+export default NewAccount

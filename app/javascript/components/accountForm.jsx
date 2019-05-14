@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {Link, Redirect} from 'react-router-dom'
 import axios from 'axios'
-import classNames from 'classnames'
 
 import { 
   Button,
@@ -15,7 +14,7 @@ import {Shape} from '../data_structures/account'
 
 import {fieldErrorMessage} from '../helpers/validators'
 
-class accountForm extends Component {
+class AccountForm extends Component {
   constructor(props) {
     super(props)
     const account = Object.assign({}, this.props.account)
@@ -183,19 +182,19 @@ class accountForm extends Component {
     let errorMessage = ''
     if (this.state.errorMessage) {
       errorMessage = (
-        <div className='add-account__error'>{this.state.errorMessage}</div>
+        <div className='avl-add-account__error'>{this.state.errorMessage}</div>
       )
     }
 
     return (
-      <div className='add-account'>
+      <div className='avl-add-account'>
         {loading}
         <div>
           <Link to='/accounts'>&lt; All Accounts</Link>
         </div>
-        <div className='add-account__container'>
-          <form className='add-account__form' onSubmit={(ev) => this.onSubmit(ev)}>
-            <h4 className='add-account__title'>{titleText}</h4>
+        <div className='avl-add-account__container'>
+          <form className='avl-add-account__form' onSubmit={(ev) => this.onSubmit(ev)}>
+            <h4 className='avl-add-account__title'>{titleText}</h4>
             {errorMessage}
             <FormGroup legendText=''>
               <TextInput
@@ -310,11 +309,11 @@ class accountForm extends Component {
   }
 }
 
-accountForm.propTypes = {
+AccountForm.propTypes = {
   onSave: PropTypes.func.isRequired,
   onDelete: PropTypes.func,
   account: Shape,
   token: PropTypes.string
 }
 
-export default accountForm
+export default AccountForm

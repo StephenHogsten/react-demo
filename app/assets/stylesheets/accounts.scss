@@ -1,4 +1,4 @@
-.accounts {
+.avl-accounts {
 
   &__title {
     font-size: 2rem;
@@ -7,7 +7,7 @@
   }
 }
 
-.accounts-grid {
+.avl-accounts-grid {
   display: grid;
   margin-left: -$layout-01;
   margin-right: -$layout-01;
@@ -18,7 +18,7 @@
   }
 }
 
-.account-card {
+.avl-account-card {
   position: relative;
   margin: $layout-01;
   padding: $layout-01;
@@ -54,6 +54,7 @@
     width: $layout-03;
     border: none;
     background: none;
+    cursor: pointer;
 
     &::after {
       content: '▼';
