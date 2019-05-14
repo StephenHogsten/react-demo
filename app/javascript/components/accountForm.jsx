@@ -116,7 +116,7 @@ class accountForm extends Component {
         console.log('err', err)
         this.setState(() => {
           return {
-            errorMessage: 'There was a problem saving your account', 
+            errorMessage: 'We\'re sorry, there was a problem saving your account', 
             loading: false
           }
         })
@@ -155,7 +155,7 @@ class accountForm extends Component {
         console.log('err', err)
         this.setState(() => {
           return {
-            errorMessage: 'There was a problem deleting your account',
+            errorMessage: 'We\'re sorry, there was a problem deleting your account',
             loading: false
           }
         })
@@ -171,6 +171,7 @@ class accountForm extends Component {
     if (this.state.account === null) {
       return loading
     }
+
     let titleText, deleteButton
     if (this.state.isNewAccount) {
       titleText = 'Add Account'
@@ -178,6 +179,13 @@ class accountForm extends Component {
     } else {
       titleText = 'Edit Account'
       deleteButton = <Button onClick={() => this.deleteAccount()} kind="danger">Delete Account</Button>
+    }
+
+    let errorMessage = ''
+    if (this.state.errorMessage) {
+      errorMessage = (
+        <div className='add-account__error'>{this.state.errorMessage}</div>
+      )
     }
 
     return (
@@ -189,6 +197,7 @@ class accountForm extends Component {
         <div className='add-account__container'>
           <form className='add-account__form'>
             <h4 className='add-account__title'>{titleText}</h4>
+            {errorMessage}
             <FormGroup legendText=''>
               <TextInput
                 type="text"
@@ -205,7 +214,6 @@ class accountForm extends Component {
               <TextInput
                 type="text"
                 defaultValue={this.state.account.accountNumber}
-                required
                 name="account[account_number]"
                 id="account_number"
                 labelText="Account Number"

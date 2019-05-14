@@ -1,5 +1,7 @@
 .add-account {
-  &__form {
+  &__error {
+    margin: $layout-03 0;
+    color: $support-01;
   }
 
   &__title {
