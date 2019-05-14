@@ -147,30 +147,8 @@ class accountForm extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   console.log('prevProps', prevProps)
-  //   console.log('currprops', this.props)
-  //   if (prevProps.hasOwnProperty('account')) {
-  //     if (typeof prevProps.account !== 'undefined') {
-  //       return
-  //     }
-  //   }
-  //   this.copyPropsAccountToState()
-  // }
-
   anyErrors() {
     return Object.keys(this.state.fieldErrors).length > 0
-  }
-
-  copyPropsAccountToState() {
-    console.log('this.props.account', this.props.account)
-    const account = Object.assign({}, this.props.account)
-    this.setState(() => {
-      return { 
-        loading: false,
-        account: account
-      }
-    })
   }
 
   onChangeFor(field) {
