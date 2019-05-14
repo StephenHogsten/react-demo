@@ -7,14 +7,9 @@ import { Shape as AccountShape } from '../data_structures/account'
 
 // the list of accounts lives in this component
 class AccountList extends Component {
-  constructor (props) {
-    super(props)
-    
-  }
-
   accountCards() {
     if (this.props.accounts.length === 0) {
-      return <p>No Accounts Found</p>
+      return <p className='avl-error-message accounts-grid__error'>No Accounts Found</p>
     }
     return this.props.accounts.map( (account) => {
       return (

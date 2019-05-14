@@ -12,6 +12,10 @@
   margin-left: -$layout-01;
   margin-right: -$layout-01;
   grid-template-columns: repeat(3, 1fr);
+
+  &__error {
+    margin: $layout-01;
+  }
 }
 
 .account-card {

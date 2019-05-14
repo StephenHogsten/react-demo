@@ -7,6 +7,10 @@ button {
   margin: $layout-05;
 }
 
+.avl-error-message {
+  color: $support-01;
+}
+
 // don't feel like figuring out why their z-index fn is broken rn
 .bx--loading-overlay {
   z-index: 99999;
