@@ -105,7 +105,7 @@ function fieldErrorMessage(field, value) {
       if (value.length === 0) {
         return 'must contain at least 1 character'
       }
-      let pattern = /^[a-z0-9]+$/ // at least 1 alphanumeric
+      let pattern = /^[a-zA-Z0-9]+$/ // at least 1 alphanumeric
       if (!pattern.exec(value)) {
         return 'must contain only alphanumeric characters'
       }
