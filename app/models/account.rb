@@ -77,16 +77,43 @@ class Account < ApplicationRecord
     with: /\A\d{5}\z/
   }
 
-  validate :routing_number_must_have_valid_checksum
+  validate :routing_number_opening_digits_must_be_valid, if: :routing_number_is_9_digits?
+  validate :routing_number_must_have_valid_checksum, if: :routing_number_is_9_digits?
 
   # force state to be uppercase
   def state
-    state = super
-    state.upcase
+    value = super
+    value.upcase unless value.nil?
   end
 
   def state=(value)
+    value.upcase! unless value.nil?
     super(value.upcase)
+  end
+
+  def is_prefix_in_valid_range?(prefix_value)
+    if (prefix_value < 13)
+      return true
+    elsif (prefix_value < 33)
+      return prefix_value > 20
+    elsif (prefix_value < 73)
+      return prefix_value > 60
+    else 
+      return prefix_value === 80
+    end
+  end
+
+  def routing_number_is_9_digits?
+    pattern = /\A\d{9}\z/
+    pattern.match(routing_number).present?
+  end
+
+  def routing_number_opening_digits_must_be_valid
+    prefix = routing_number.slice(0, 2)
+    prefix_value = prefix.to_i
+    unless is_prefix_in_valid_range?(prefix_value)
+      errors.add(:routing_number, 'has first two digits outside valid range')
+    end
   end
 
   def routing_number_must_have_valid_checksum
@@ -95,6 +122,8 @@ class Account < ApplicationRecord
     products = multipliers.map.with_index do |multiplier, idx|
       multiplier * ach[idx].to_i
     end
-    products.sum % 10 === 0 
+    unless products.sum % 10 === 0 
+      errors.add(:routing_number, 'has invalid checksum digit')
+    end
   end
 end
