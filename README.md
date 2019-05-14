@@ -29,4 +29,5 @@
   * **state** must be an abbreviation corresponding to a US state or commonwealth territory
     * quickly pulled a list from [here](https://www.50states.com/abbreviations.htm)
   * all fields are required except for **address line 2**
-  * some 
+  * there's no lookup of the address itself
+  * if you lookup an invalid id (e.g. /accounts/9awef1) it doesn't treat the route as invalid but does prompt you to add a new record

@@ -10,7 +10,7 @@ import {
   TextInput
 } from 'carbon-components-react';
 
-import {Shape} from '../data_structures/account'
+import {Shape, AccountFactory} from '../data_structures/account'
 
 import {fieldErrorMessage} from '../helpers/validators'
 
@@ -314,6 +314,10 @@ AccountForm.propTypes = {
   onDelete: PropTypes.func,
   account: Shape,
   token: PropTypes.string
+}
+
+AccountForm.defaultProps = {
+  account: AccountFactory()
 }
 
 export default AccountForm
