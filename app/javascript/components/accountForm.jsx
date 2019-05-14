@@ -13,6 +13,126 @@ import {
 
 import {Shape} from '../data_structures/account'
 
+const VALID_STATES = {
+  AL: true,
+  AK: true,
+  AZ: true,
+  AR: true,
+  CA: true,
+  CO: true,
+  CT: true,
+  DE: true,
+  FL: true,
+  GA: true,
+  HI: true,
+  ID: true,
+  IL: true,
+  IN: true,
+  IA: true,
+  KS: true,
+  KY: true,
+  LA: true,
+  ME: true,
+  MD: true,
+  MA: true,
+  MI: true,
+  MN: true,
+  MS: true,
+  MO: true,
+  MT: true,
+  NE: true,
+  NV: true,
+  NH: true,
+  NJ: true,
+  NM: true,
+  NY: true,
+  NC: true,
+  ND: true,
+  OH: true,
+  OK: true,
+  OR: true,
+  PA: true,
+  RI: true,
+  SC: true,
+  SD: true,
+  TN: true,
+  TX: true,
+  UT: true,
+  VT: true,
+  VA: true,
+  WA: true,
+  WV: true,
+  WI: true,
+  WY: true,
+  AS: true,
+  DC: true,
+  FM: true,
+  GU: true,
+  MH: true,
+  MP: true,
+  PW: true,
+  PR: true,
+  VI: true
+}
+
+// references:
+//  https://stackoverflow.com/questions/1540285/united-states-banking-institution-account-number-regular-expression
+//  http://www.brainjar.com/js/validation/
+function validAchChecksum(value) {
+  const multipliers = [3, 7, 1, 3, 7, 1, 3, 7, 1]
+  let products = multipliers.map((factor, idx) => {
+    return factor * Number(value[idx])
+  })
+  console.log(products)
+  let productSum = products.reduce((val, acc) => val + acc)
+  console.log(productSum)
+  return productSum % 10 === 0
+}
+
+function fieldErrorMessage(field, value) {
+  switch(field) {
+    case 'routingNumber': {
+      let pattern = /^[\d]{9}$/ // 9 digits
+      if (!pattern.exec(value)) {
+        return 'must contain exactly 9 digits'
+      }
+      if (!validAchChecksum(value)) {
+        return 'invalid checksum digit'
+      }
+      return ''
+    }
+    case 'accountNumber': {
+      if (value.length === 0) {
+        return 'must contain at least 1 character'
+      }
+      let pattern = /^[a-z0-9]+$/ // at least 1 alphanumeric
+      if (!pattern.exec(value)) {
+        return 'must contain only alphanumeric characters'
+      }
+      return ''
+    }
+    case 'state': {
+      let pattern = /^[a-zA-Z]{2}$/ // two letters
+      if (!pattern.exec(value)) {
+        return 'must be exactly 2 letters'
+      }
+      let upValue = value.toUpperCase()
+      if (!(upValue in VALID_STATES)) {
+        return 'abbreviation not in state list'
+      }
+      return ''
+    }
+    case 'zip': {
+      let pattern = /^[\d]{5}$/ // five digits
+      if (!pattern.exec(value)) {
+        return 'must contain exactly 5 digits'
+      }
+      return ''
+    }
+  }
+  return false
+}
+
 class accountForm extends Component {
   constructor(props) {
     super(props)
@@ -21,6 +141,7 @@ class accountForm extends Component {
       loading: account === null,
       errorMessage: null,
       account: account,
+      fieldErrors: {},
       isNewAccount: account.id === null || account.id === '',
       redirect: false
     }
@@ -37,6 +158,10 @@ class accountForm extends Component {
   //   this.copyPropsAccountToState()
   // }
 
+  anyErrors() {
+    return Object.keys(this.state.fieldErrors).length > 0
+  }
+
   copyPropsAccountToState() {
     console.log('this.props.account', this.props.account)
     const account = Object.assign({}, this.props.account)
@@ -52,11 +177,18 @@ class accountForm extends Component {
     return (ev) => {
       let value = ev.target.value
       this.setState((state) => {
-        let account = Object.assign({}, state.account)
-        account[field] = value
-        return {
-          account: account
+        let newShallowState = {
+          account: Object.assign({}, state.account),
+          fieldErrors: Object.assign({}, state.fieldErrors)
         }
+        newShallowState.account[field] = value
+        let fieldError = fieldErrorMessage(field, value)
+        if (fieldError) {
+          newShallowState.fieldErrors[field] = fieldError
+        } else {
+          delete newShallowState.fieldErrors[field]
+        }
+        return newShallowState
       })
     }
   }
@@ -95,6 +227,12 @@ class accountForm extends Component {
 
   onSubmit(ev) {
     ev.preventDefault()
+    if (this.anyErrors()) {
+      this.setState(() => {
+        return {errorMessage: 'Unable to submit account with errors'}
+      })
+      return
+    }
     console.log('should submit')
     this.setState(() => {
       return {
@@ -195,7 +333,7 @@ class accountForm extends Component {
           <Link to='/accounts'>&lt; All Accounts</Link>
         </div>
         <div className='add-account__container'>
-          <form className='add-account__form'>
+          <form className='add-account__form' onSubmit={(ev) => this.onSubmit(ev)}>
             <h4 className='add-account__title'>{titleText}</h4>
             {errorMessage}
             <FormGroup legendText=''>
@@ -214,11 +352,14 @@ class accountForm extends Component {
               <TextInput
                 type="text"
                 defaultValue={this.state.account.accountNumber}
+                required
                 name="account[account_number]"
                 id="account_number"
                 labelText="Account Number"
                 placeholder="xxxx-xxxx-xxxx-xxxx"
                 onChange={this.onChangeFor('accountNumber')}
+                invalid={this.state.fieldErrors.hasOwnProperty('accountNumber')}
+                invalidText={this.state.fieldErrors.accountNumber}
               />
             </FormGroup>
             <FormGroup legendText=''>
@@ -231,6 +372,8 @@ class accountForm extends Component {
                 labelText="Routing Number"
                 placeholder="xxxx-xxxx-xxxx-xxxx"
                 onChange={this.onChangeFor('routingNumber')}
+                invalid={this.state.fieldErrors.hasOwnProperty('routingNumber')}
+                invalidText={this.state.fieldErrors.routingNumber}
               />
             </FormGroup>
             <FormGroup legendText='Account Address'>
@@ -278,6 +421,8 @@ class accountForm extends Component {
                 labelText="State"
                 placeholder="DC"
                 onChange={this.onChangeFor('state')}
+                invalid={this.state.fieldErrors.hasOwnProperty('state')}
+                invalidText={this.state.fieldErrors.state}
               />
             </FormGroup>
             <FormGroup legendText=''>
@@ -290,9 +435,12 @@ class accountForm extends Component {
                 labelText="Zip"
                 placeholder="20036"
                 onChange={this.onChangeFor('zip')}
+                invalid={this.state.fieldErrors.hasOwnProperty('zip')}
+                invalidText={this.state.fieldErrors.zip}
               />
             </FormGroup>
-            <Button type='submit' onClick={(ev) => this.onSubmit(ev)}>Submit</Button>
+            {errorMessage}
+            <Button type='submit' disabled={this.anyErrors()}>Submit</Button>
             {deleteButton}
           </form>
         </div>
