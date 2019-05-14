@@ -74,12 +74,35 @@ function validAchChecksum(value) {
   return productSum % 10 === 0
 }
 
-// all validator functions return an error message if invalid
+// validAchPrefix checks that the first two digits are in one of the following ranges:
+// 00-12
+// 21-32
+// 61-72
+// 80
+// reference: https://en.wikipedia.org/wiki/ABA_routing_transit_number
+// validAchPrefix assumes the passed value has at least two digits at the beginning
+function validAchPrefix(value) {
+  let prefixValue = Number(value.slice(0,2))
+  if (prefixValue < 13) {
+    return true
+  } else if (prefixValue < 33) {
+    return prefixValue > 20
+  } else if (prefixValue < 73) {
+    return prefixValue > 60
+  } else {
+    return prefixValue === 80
+  }
+}
+
+// all error functions return an error message if invalid
 // an empty response means no error
 export function routingNumberError(value) {
   let pattern = /^[\d]{9}$/ // 9 digits
   if (!pattern.exec(value)) {
     return 'must contain exactly 9 digits'
+  }
+  if (!validAchPrefix(value)) {
+    return 'first two digits are not a valid combination'
   }
   if (!validAchChecksum(value)) {
     return 'invalid checksum digit'
