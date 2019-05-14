@@ -21,6 +21,7 @@ class accountForm extends Component {
       loading: account === null,
       errorMessage: null,
       account: account,
+      isNewAccount: account.id === null || account.id === '',
       redirect: false
     }
   }
@@ -60,9 +61,9 @@ class accountForm extends Component {
     }
   }
 
-  axiosOptions() {
+  submitAxiosOptions() {
     let method, url;
-    if (this.state.account.id === null) {
+    if (this.state.isNewAccount) {
       method = 'post'
       url = '/api/accounts'
     } else {
@@ -101,7 +102,7 @@ class accountForm extends Component {
         errorMessage: ''
       }
     })
-    axios(this.axiosOptions())
+    axios(this.submitAxiosOptions())
       .then((resp) => {
         this.props.onSave(resp.data)
         this.setState(() => {
@@ -115,7 +116,46 @@ class accountForm extends Component {
         console.log('err', err)
         this.setState(() => {
           return {
-            errorMessage: 'There was a problem saving your new account', 
+            errorMessage: 'There was a problem saving your account', 
+            loading: false
+          }
+        })
+      })
+  }
+
+  deleteAccount() {
+    let id = this.state.account.id
+    this.setState(() => {
+      return {
+        loading: true,
+        errorMessage: ''
+      }
+    })
+    axios({
+      method: 'delete',
+      url: `/api/accounts/${id}`,
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': this.props.token
+      }
+    })
+      .then(() => {
+        this.setState(() => {
+          return {
+            loading: false,
+            redirect: true
+          }
+        })
+        if (typeof this.props.onDelete === 'function') {
+          this.props.onDelete(id)
+        } 
+      })
+      .catch((err) => {
+        console.log('err', err)
+        this.setState(() => {
+          return {
+            errorMessage: 'There was a problem deleting your account',
             loading: false
           }
         })
@@ -131,6 +171,14 @@ class accountForm extends Component {
     if (this.state.account === null) {
       return loading
     }
+    let titleText, deleteButton
+    if (this.state.isNewAccount) {
+      titleText = 'Add Account'
+      deleteButton = ''
+    } else {
+      titleText = 'Edit Account'
+      deleteButton = <Button onClick={() => this.deleteAccount()} kind="danger">Delete Account</Button>
+    }
 
     return (
       <div className='add-account'>
@@ -140,7 +188,7 @@ class accountForm extends Component {
         </div>
         <div className='add-account__container'>
           <form className='add-account__form'>
-            <h4 className='add-account__title'>New Account</h4>
+            <h4 className='add-account__title'>{titleText}</h4>
             <FormGroup legendText=''>
               <TextInput
                 type="text"
@@ -237,6 +285,7 @@ class accountForm extends Component {
               />
             </FormGroup>
             <Button type='submit' onClick={(ev) => this.onSubmit(ev)}>Submit</Button>
+            {deleteButton}
           </form>
         </div>
       </div>
@@ -246,6 +295,7 @@ class accountForm extends Component {
 
 accountForm.propTypes = {
   onSave: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   account: Shape,
   token: PropTypes.string
 }

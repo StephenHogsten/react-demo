@@ -13,6 +13,7 @@ class editAccount extends Component {
     return (
       <AccountForm
         onSave={(acc) => this.props.onSave(acc)}
+        onDelete={(id) => this.props.onDelete(id)}
         account={this.props.activeAccount}
         token={this.props.token}
         key={typeof this.props.activeAccount === 'undefined' ? 0 : this.props.activeAccount.id}
@@ -24,7 +25,8 @@ class editAccount extends Component {
 editAccount.propTypes = {
   token: PropTypes.string,
   onSave: PropTypes.func.isRequired,
-  activeAccount: AccountShape
+  activeAccount: AccountShape,
+  onDelete: PropTypes.func.isRequired
 }
 
 export default editAccount

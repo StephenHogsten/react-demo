@@ -2,15 +2,15 @@ import PropTypes from 'prop-types'
 
 function AccountFactory() {
   return {
-    id: null,
-    accountNumber: null,
-    routingNumber: null,
-    name: null,
-    streetAddress1: null,
-    streetAddress2: null,
-    city: null,
-    state: null,
-    zip: null,
+    id: '',
+    accountNumber: '',
+    routingNumber: '',
+    name: '',
+    streetAddress1: '',
+    streetAddress2: '',
+    city: '',
+    state: '',
+    zip: '',
   }
 }
 

@@ -80,6 +80,15 @@ class App extends Component {
     })
   }
 
+  onDeleteAccount(deletedAccountId) {
+    this.setState((state) => {
+      let accounts = state.accounts.filter((acct) => acct.id !== deletedAccountId)
+      return {
+        accounts: accounts
+      }
+    })
+  }
+
   activeAccount(accountId) {
     let activeAccounts = this.state.accounts.filter((acct) => acct.id == accountId)
     return activeAccounts[0]
@@ -124,7 +133,7 @@ class App extends Component {
                   <EditAccount
                     token={this.state.token}
                     onSave={(acct) => this.onUpdateAccount(acct)}
-                    accounts={this.state.accounts}
+                    onDelete={(id) => this.onDeleteAccount(id)}
                     activeAccount={this.activeAccount(props.match.params.accountId)}
                   />
                 )
